@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<%- include('../head.ejs') %>
+<body>
+    <h1>Búsqueda de Oficinas</h1>
+
+    <form action="/oficinas/buscar" method="POST">
+        <div>
+            <label for="keyword">Buscar oficina:</label>
+            <input type="text" id="keyword" name="keyword" placeholder="Ingrese denominación...">
+        </div>
+        <button type="submit">Buscar</button>
+        <a href="/oficinas"><button type="button">Volver</button></a>
+    </form>
+
+    <% if (typeof oficinas !== 'undefined' && oficinas.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Denominación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% oficinas.forEach(oficina => { %>
+                    <tr>
+                        <td><%= oficina.id %></td>
+                        <td><%= oficina.denominacion %></td>
+                        <td>
+                            <button onclick="editarOficina(<%= oficina.id %>, '<%= oficina.denominacion %>')">Editar</button>
+                            <a href="/oficinas/eliminar/<%= oficina.id %>">
+                                <button type="button">Eliminar</button>
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else if (typeof oficinas !== 'undefined') { %>
+        <p>No se encontraron resultados</p>
+    <% } %>
+</body>
+</html> 

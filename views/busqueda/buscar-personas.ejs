@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<%- include('../head.ejs') %>
+<body>
+    <h1>Búsqueda de Personas</h1>
+
+    <form action="/personas/buscar" method="POST">
+        <div>
+            <label for="keyword">Buscar persona:</label>
+            <input type="text" id="keyword" name="keyword" placeholder="Ingrese nombre o email...">
+        </div>
+        <button type="submit">Buscar</button>
+        <a href="/personas"><button type="button">Volver</button></a>
+    </form>
+
+    <% if (typeof personas !== 'undefined' && personas.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% personas.forEach(persona => { %>
+                    <tr>
+                        <td><%= persona.id %></td>
+                        <td><%= persona.nombre %></td>
+                        <td><%= persona.email %></td>
+                        <td>
+                            <button onclick="editarPersona(<%= persona.id %>, '<%= persona.nombre %>', '<%= persona.email %>')">Editar</button>
+                            <a href="/personas/eliminar/<%= persona.id %>">
+                                <button type="button">Eliminar</button>
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else if (typeof personas !== 'undefined') { %>
+        <p>No se encontraron resultados</p>
+    <% } %>
+</body>
+</html> 
