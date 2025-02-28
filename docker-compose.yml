@@ -1,18 +1,37 @@
-version: '3.1'
-
+version: '3'
 services:
-
-  db:
+  # Servicio de MySQL
+  mysql:
     image: mysql:8.0
-    container_name: mysql-container    
-    restart: always
+    container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: 1234
     volumes:
-      - mysql-volume:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     ports:
-      - 3306:3306
-    
-volumes:
-  mysql-volume:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - my_network
 
+  node_app:
+    image: tero128/crudnodejs:3.0
+    container_name: nodeapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - my_network
+
+volumes:
+  mysql_data:
+
+networks:
+  my_network:
