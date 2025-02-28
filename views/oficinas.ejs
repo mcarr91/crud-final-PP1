@@ -3,71 +3,60 @@
 <%- include('./head.ejs') %>
 
     <body>
-        <h1><%= mensaje %></h1>
+        <%- include('./partials/navbar.ejs') %>
+        <div class="container mt-4">
+            <h1><%= mensaje %></h1>
 
-        <div>
-            <a href="/oficinas/buscar"><button type="button">Buscar Oficinas</button></a>
-        </div>
+            <!-- Botones de acción -->
+            <div class="flex mb-4">
+                <a href="/oficinas/buscar">
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fas fa-search"></i> Buscar Oficinas
+                    </button>
+                </a>
+                <a href="/oficinas/crear" class="ml-2">
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nueva Oficina
+                    </button>
+                </a>
+            </div>
 
-        <!-- Formulario para crear/editar oficina -->
-        <div id="formularioOficina">
-            <h2 id="tituloFormulario">Crear Nueva Oficina</h2>
-            <form id="oficinaForm" action="/oficinas/crear" method="POST">
-                <input type="hidden" name="id" id="oficinaId">
-                <div>
-                    <label for="denominacion">Denominación:</label>
-                    <input type="text" id="denominacion" name="denominacion" required>
-                </div>
-                <button type="submit">Guardar</button>
-                <button type="button" onclick="limpiarFormulario()">Cancelar</button>
-            </form>
-        </div>
-
-        <!-- Tabla de oficinas -->
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Denominación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (oficinas && oficinas.length > 0) { %>
-                    <% oficinas.forEach(oficina => { %>
-                        <tr>
-                            <td><%= oficina.id %></td>
-                            <td><%= oficina.denominacion %></td>
-                            <td>
-                                <button onclick="editarOficina(<%= oficina.id %>, '<%= oficina.denominacion %>')">Editar</button>
-                                <a href="/oficinas/eliminar/<%= oficina.id %>" onclick="return confirm('¿Está seguro de eliminar esta oficina?')">
-                                    <button type="button">Eliminar</button>
-                                </a>
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
+            <!-- Tabla de oficinas -->
+            <table>
+                <thead>
                     <tr>
-                        <td colspan="3">No hay oficinas registradas</td>
+                        <th>ID</th>
+                        <th>Denominación</th>
+                        <th>Acciones</th>
                     </tr>
-                <% } %>
-            </tbody>
-        </table>
-
-        <script>
-            function editarOficina(id, denominacion) {
-                document.getElementById('tituloFormulario').textContent = 'Editar Oficina';
-                document.getElementById('oficinaId').value = id;
-                document.getElementById('denominacion').value = denominacion;
-                document.getElementById('oficinaForm').action = '/oficinas/actualizar';
-            }
-
-            function limpiarFormulario() {
-                document.getElementById('tituloFormulario').textContent = 'Crear Nueva Oficina';
-                document.getElementById('oficinaForm').reset();
-                document.getElementById('oficinaForm').action = '/oficinas/crear';
-                document.getElementById('oficinaId').value = '';
-            }
-        </script>
+                </thead>
+                <tbody>
+                    <% if (oficinas && oficinas.length > 0) { %>
+                        <% oficinas.forEach(oficina => { %>
+                            <tr>
+                                <td><%= oficina.id %></td>
+                                <td><%= oficina.denominacion %></td>
+                                <td>
+                                    <div class="flex">
+                                        <a href="/oficinas/editar/<%= oficina.id %>" class="btn btn-secondary">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        <a href="/oficinas/eliminar/<%= oficina.id %>" 
+                                           onclick="return confirm('¿Está seguro de eliminar esta oficina?')"
+                                           class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="3" class="text-center">No hay oficinas registradas</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html> 

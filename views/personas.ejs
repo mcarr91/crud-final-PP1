@@ -3,79 +3,62 @@
 <%- include('./head.ejs') %>
 
     <body>
-        <h1><%= mensaje %></h1>
+        <%- include('./partials/navbar.ejs') %>
+        <div class="container mt-4">
+            <h1><%= mensaje %></h1>
 
-        <!-- Agregar después del título -->
-        <div>
-            <a href="/personas/buscar"><button type="button">Buscar Personas</button></a>
-        </div>
+            <!-- Botón de búsqueda -->
+            <div class="flex mb-4">
+                <a href="/personas/buscar">
+                    <button type="button" class="btn btn-secondary">
+                        <i class="fas fa-search"></i> Buscar Personas
+                    </button>
+                </a>
+                <a href="/personas/crear" class="ml-2">
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nueva Persona
+                    </button>
+                </a>
+            </div>
 
-        <!-- Formulario para crear/editar persona -->
-        <div id="formularioPersona">
-            <h2 id="tituloFormulario">Crear Nueva Persona</h2>
-            <form id="personaForm" action="/personas/crear" method="POST">
-                <input type="hidden" name="id" id="personaId">
-                <div>
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <button type="submit">Guardar</button>
-                <button type="button" onclick="limpiarFormulario()">Cancelar</button>
-            </form>
-        </div>
-
-        <!-- Tabla de personas -->
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (personas && personas.length > 0) { %>
-                    <% personas.forEach(persona => { %>
-                        <tr>
-                            <td><%= persona.id %></td>
-                            <td><%= persona.nombre %></td>
-                            <td><%= persona.email %></td>
-                            <td>
-                                <button onclick="editarPersona(<%= JSON.stringify(persona) %>)">Editar</button>
-                                <a href="/personas/eliminar/<%= persona.id %>" onclick="return confirm('¿Está seguro de eliminar esta persona?')">
-                                    <button type="button">Eliminar</button>
-                                </a>
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
+            <!-- Tabla de personas -->
+            <table border="1">
+                <thead>
                     <tr>
-                        <td colspan="4">No hay personas registradas</td>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
                     </tr>
-                <% } %>
-            </tbody>
-        </table>
-
-        <script>
-            function editarPersona(persona) {
-                document.getElementById('tituloFormulario').textContent = 'Editar Persona';
-                document.getElementById('personaId').value = persona.id;
-                document.getElementById('nombre').value = persona.nombre;
-                document.getElementById('email').value = persona.email;
-                document.getElementById('personaForm').action = '/personas/actualizar';
-            }
-
-            function limpiarFormulario() {
-                document.getElementById('tituloFormulario').textContent = 'Crear Nueva Persona';
-                document.getElementById('personaForm').reset();
-                document.getElementById('personaForm').action = '/personas/crear';
-                document.getElementById('personaId').value = '';
-            }
-        </script>
+                </thead>
+                <tbody>
+                    <% if (personas && personas.length > 0) { %>
+                        <% personas.forEach(persona => { %>
+                            <tr>
+                                <td><%= persona.id %></td>
+                                <td><%= persona.nombre %></td>
+                                <td><%= persona.email %></td>
+                                <td>
+                                    <div class="flex">
+                                        <a href="/personas/editar/<%= persona.id %>" class="btn btn-secondary">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        <a href="/personas/eliminar/<%= persona.id %>" 
+                                           onclick="return confirm('¿Está seguro de eliminar esta persona?')"
+                                           class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4">No hay personas registradas</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

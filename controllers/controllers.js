@@ -180,6 +180,54 @@ const buscarOficinaResultados = (req, res) => {
     });
 };
 
+const getEditarPersona = (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM persona WHERE id = ?";
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error("Error al obtener persona:", err);
+            return res.status(500).render("error", { 
+                message: "Error al obtener persona",
+                error: err
+            });
+        }
+        res.render("personas/editar-persona", {
+            title: "Editar Persona",
+            persona: result[0]
+        });
+    });
+};
+
+const getEditarOficina = (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM oficina WHERE id = ?";
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error("Error al obtener oficina:", err);
+            return res.status(500).render("error", { 
+                message: "Error al obtener oficina",
+                error: err
+            });
+        }
+        res.render("oficinas/editar-oficina", {
+            title: "Editar Oficina",
+            oficina: result[0]
+        });
+    });
+};
+
+const getCrearPersona = (req, res) => {
+    res.render('personas/crear-persona', {
+        title: 'Crear Persona'
+    });
+};
+
+const getCrearOficina = (req, res) => {
+    res.render('oficinas/crear-oficina', {
+        title: 'Crear Oficina'
+    });
+};
+
 module.exports = {
     ListPersonas,
     CreatePersona,
@@ -192,5 +240,9 @@ module.exports = {
     buscarPersona,
     buscarPersonaResultados,
     buscarOficina,
-    buscarOficinaResultados
+    buscarOficinaResultados,
+    getEditarPersona,
+    getEditarOficina,
+    getCrearPersona,
+    getCrearOficina
 };

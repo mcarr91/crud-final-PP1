@@ -27,4 +27,12 @@ router.post('/personas/buscar', ctl.buscarPersonaResultados);
 router.get('/oficinas/buscar', ctl.buscarOficina);
 router.post('/oficinas/buscar', ctl.buscarOficinaResultados);
 
+// Rutas para crear nuevos registros
+router.get('/personas/crear', ctl.getCrearPersona);
+router.get('/oficinas/crear', ctl.getCrearOficina);
+
+// Rutas para editar registros
+router.get('/personas/editar/:id', ctl.getEditarPersona);
+router.get('/oficinas/editar/:id', ctl.getEditarOficina);
+
 module.exports = router;

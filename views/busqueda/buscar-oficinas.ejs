@@ -2,43 +2,74 @@
 <html>
 <%- include('../head.ejs') %>
 <body>
-    <h1>Búsqueda de Oficinas</h1>
+    <%- include('../partials/navbar.ejs') %>
+    <div class="container mt-4">
+        <h1>Búsqueda de Oficinas</h1>
 
-    <form action="/oficinas/buscar" method="POST">
-        <div>
-            <label for="keyword">Buscar oficina:</label>
-            <input type="text" id="keyword" name="keyword" placeholder="Ingrese denominación...">
+        <div class="search-container">
+            <form action="/oficinas/buscar" method="POST">
+                <div>
+                    <label for="keyword">Buscar oficina:</label>
+                    <div class="search-input-group">
+                        <input type="text" 
+                               id="keyword" 
+                               name="keyword" 
+                               required
+                               placeholder="Ingrese denominación...">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <button type="submit">Buscar</button>
-        <a href="/oficinas"><button type="button">Volver</button></a>
-    </form>
 
-    <% if (typeof oficinas !== 'undefined' && oficinas.length > 0) { %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Denominación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% oficinas.forEach(oficina => { %>
-                    <tr>
-                        <td><%= oficina.id %></td>
-                        <td><%= oficina.denominacion %></td>
-                        <td>
-                            <button onclick="editarOficina(<%= oficina.id %>, '<%= oficina.denominacion %>')">Editar</button>
-                            <a href="/oficinas/eliminar/<%= oficina.id %>">
-                                <button type="button">Eliminar</button>
-                            </a>
-                        </td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else if (typeof oficinas !== 'undefined') { %>
-        <p>No se encontraron resultados</p>
-    <% } %>
+        <% if (typeof oficinas !== 'undefined') { %>
+            <div class="results-container">
+                <h2>Resultados de la búsqueda</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Denominación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (oficinas.length > 0) { %>
+                            <% oficinas.forEach(oficina => { %>
+                                <tr>
+                                    <td><%= oficina.id %></td>
+                                    <td><%= oficina.denominacion %></td>
+                                    <td>
+                                        <div class="flex">
+                                            <a href="/oficinas/editar/<%= oficina.id %>" class="btn btn-secondary">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <a href="/oficinas/eliminar/<%= oficina.id %>" 
+                                               onclick="return confirm('¿Está seguro de eliminar esta oficina?')"
+                                               class="btn btn-danger">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="3" class="text-center">No se encontraron resultados</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+        <div class="flex mt-4">
+            <a href="/oficinas" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
 </body>
 </html> 

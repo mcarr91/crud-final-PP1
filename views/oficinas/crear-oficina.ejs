@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<%- include('../head.ejs') %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+    <div class="container mt-4">
+        <h1>Crear Nueva Oficina</h1>
+        
+        <div id="formularioPersona">
+            <form action="/oficinas/crear" method="POST">
+                <div>
+                    <label for="denominacion">Denominación:</label>
+                    <input type="text" id="denominacion" name="denominacion" required>
+                </div>
+                <div class="flex flex-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <a href="/oficinas" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

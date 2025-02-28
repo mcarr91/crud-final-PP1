@@ -2,45 +2,76 @@
 <html>
 <%- include('../head.ejs') %>
 <body>
-    <h1>Búsqueda de Personas</h1>
+    <%- include('../partials/navbar.ejs') %>
+    <div class="container mt-4">
+        <h1>Búsqueda de Personas</h1>
 
-    <form action="/personas/buscar" method="POST">
-        <div>
-            <label for="keyword">Buscar persona:</label>
-            <input type="text" id="keyword" name="keyword" placeholder="Ingrese nombre o email...">
+        <div class="search-container">
+            <form action="/personas/buscar" method="POST">
+                <div>
+                    <label for="keyword">Buscar por nombre o email:</label>
+                    <div class="search-input-group">
+                        <input type="text" 
+                               id="keyword" 
+                               name="keyword" 
+                               required 
+                               placeholder="Ingrese término de búsqueda...">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <button type="submit">Buscar</button>
-        <a href="/personas"><button type="button">Volver</button></a>
-    </form>
 
-    <% if (typeof personas !== 'undefined' && personas.length > 0) { %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% personas.forEach(persona => { %>
-                    <tr>
-                        <td><%= persona.id %></td>
-                        <td><%= persona.nombre %></td>
-                        <td><%= persona.email %></td>
-                        <td>
-                            <button onclick="editarPersona(<%= persona.id %>, '<%= persona.nombre %>', '<%= persona.email %>')">Editar</button>
-                            <a href="/personas/eliminar/<%= persona.id %>">
-                                <button type="button">Eliminar</button>
-                            </a>
-                        </td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else if (typeof personas !== 'undefined') { %>
-        <p>No se encontraron resultados</p>
-    <% } %>
+        <% if (personas) { %>
+            <div class="results-container">
+                <h2>Resultados de la búsqueda</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (personas.length > 0) { %>
+                            <% personas.forEach(persona => { %>
+                                <tr>
+                                    <td><%= persona.id %></td>
+                                    <td><%= persona.nombre %></td>
+                                    <td><%= persona.email %></td>
+                                    <td>
+                                        <div class="flex">
+                                            <a href="/personas/editar/<%= persona.id %>" class="btn btn-secondary">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <a href="/personas/eliminar/<%= persona.id %>" 
+                                               onclick="return confirm('¿Está seguro de eliminar esta persona?')"
+                                               class="btn btn-danger">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center">No se encontraron resultados</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+        <div class="flex mt-4">
+            <a href="/personas" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
 </body>
 </html> 
