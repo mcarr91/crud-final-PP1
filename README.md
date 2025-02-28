@@ -1,17 +1,33 @@
-# CRUD APP
+# CRUD FINAL.
 
-Aplicacion crud presentada como trabajo final de la materia PP1
+### Instalación 🔧
 
-## INSTALACION
+- Debe clonar el repositorio en la terminal que desee.
+- cd desktop
+- git clone https://github.com/mcarr91/crud-final-PP1.git
+- docker-compose up -d
 
-`git clone https://github.com/mcarr91/crud-final-PP1.git`
 
-`cd crud-final-PP1` 
+## Construido con 🛠️
+- Express
+- Nodejs 20.15.1
+- Mysql 9.2.0
+- Bootstrap 5.3.3
+- Docker
+- VS Code
+- Github
 
-`docker-compose up -d` 
 
-## CONTACTO
+## Autores
 
-Mauricio Carrizo 
+* **Mauricio Carrizo** https://github.com/mcarr91
 
-mauricio.carrizo@itscordoba.edu.ar
+## Licencia 📄
+
+Este proyecto es de libre uso y no está bajo ninguna Licencia, ya que fue creado con fines educativos.
+
+## AGRADECIMIENTOS 🎁
+### agradecimientos especiales a:
+
+* **Luis Romano (Profesor)** por brindar el conociemiento necesario para crear la app.
+
